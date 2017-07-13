@@ -8,3 +8,16 @@ void initializeMap(Tile map[MAP_WIDTH][MAP_HEIGHT]) {
 		}
 	}
 }
+
+void addRoomToMap(Room room, Tile map[MAP_WIDTH][MAP_HEIGHT]){
+	Tile tile = {1, 1, '#' };
+	for (int i = room.x; i < room.x + room.width; i++) {
+		map[i][room.y] = tile;
+		map[i][room.y+room.height-1] = tile; 
+	}
+	for (int j = room.y; j < room.y + room.height; j++) {
+		map[room.x][j] = tile;
+		map[room.x + room.height-1][j] = tile;
+	}
+
+}

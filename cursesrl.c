@@ -12,6 +12,8 @@ int main() {
 	Object player = { 25, 25, '@' };
 	Tile map[MAP_WIDTH][MAP_HEIGHT];
 	initializeMap(map);
+	Room room = {20, 20, 10, 10 };
+	addRoomToMap(room, map);
 	while(1) {
 		clear();
 		char icon[2];

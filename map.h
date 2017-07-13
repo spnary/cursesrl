@@ -14,3 +14,4 @@ typedef struct room {
 } Room;
 
 void initializeMap(Tile map[MAP_WIDTH][MAP_HEIGHT]); 
+void addRoomToMap(Room room, Tile map[MAP_WIDTH][MAP_HEIGHT]);
