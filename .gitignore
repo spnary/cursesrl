@@ -1,0 +1,5 @@
+*.o
+cursesrl
+*.swp
+.DS_Store
+
