@@ -1,3 +1,4 @@
+#include <ncurses.h>
 #include "rlconst.h"
 
 #ifndef __MAP
@@ -6,6 +7,7 @@ typedef struct tile {
 	int blocked;
 	int blockSight;
 	char icon;
+	ColorPair colorPair;
 } Tile;
 
 typedef struct room {
@@ -18,3 +20,4 @@ typedef struct room {
 
 void initializeMap(Tile map[MAP_WIDTH][MAP_HEIGHT]); 
 void addRoomToMap(Room room, Tile map[MAP_WIDTH][MAP_HEIGHT]);
+void printTile(Tile tile, WINDOW *win, int x, int y);
