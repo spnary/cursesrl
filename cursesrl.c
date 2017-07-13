@@ -29,7 +29,7 @@ int main() {
 		refresh();
 		int key = getch();
 
-		int exit = handleKey(key, &player);
+		int exit = handleKey(key, &player, map);
 		if (exit) {
 			break;
 		}
