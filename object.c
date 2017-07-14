@@ -33,7 +33,7 @@ void printObject(Object obj, WINDOW *win) {
 	char icon[2];
 	icon[0] = obj.icon;
 	icon[1] = '\0';
-	attron(COLOR_PAIR(obj.colorPair));
+	wattron(win, COLOR_PAIR(obj.colorPair));
 	mvwprintw(win, obj.y, obj.x, icon); 
-	attroff(COLOR_PAIR(obj.colorPair));
+	wattroff(win, COLOR_PAIR(obj.colorPair));
 }

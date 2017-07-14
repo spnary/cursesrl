@@ -1,7 +1,7 @@
 #include <ncurses.h>
 
 const int MAP_WIDTH = 80;
-const int MAP_HEIGHT = 45;
+const int MAP_HEIGHT = 40;
 
 void initializeColorPairs() {
 	for (int i = COLOR_BLACK; i <= COLOR_WHITE; i++) {
