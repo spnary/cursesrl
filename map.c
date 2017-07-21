@@ -4,25 +4,16 @@
 void initializeMap(Tile map[MAP_WIDTH][MAP_HEIGHT]) {
 	for (int i = 0; i < MAP_WIDTH; i++) {
 		for (int j = 0; j < MAP_HEIGHT; j++) {
-			Tile tile = { 0, 0, ' '};
+			Tile tile = { 1, 1, '#', WHITE};
 			map[i][j] = tile;
 		}
 	}
 }
 
 void addRoomToMap(Room room, Tile map[MAP_WIDTH][MAP_HEIGHT]){
-	Tile wallTile = {1, 1, '#', WHITE};
-	for (int i = room.x; i < room.x + room.width; i++) {
-		map[i][room.y] = wallTile;
-		map[i][room.y+room.height-1] = wallTile; 
-	}
-	for (int j = room.y; j < room.y + room.height; j++) {
-		map[room.x][j] = wallTile;
-		map[room.x + room.width-1][j] = wallTile;
-	}
 	Tile floorTile = { 0, 0, '.', YELLOW};
-	for (int i = room.x+1; i < room.x + room.width -1; i++) {
-		for (int j = room.y+1; j < room.y + room.height -1; j++) {
+	for (int i = room.x; i < room.x + room.width; i++) {
+		for (int j = room.y; j < room.y + room.height; j++) {
 			map[i][j] = floorTile;
 		}
 	}
@@ -43,6 +34,31 @@ int roomsIntersect(Room room1, Room room2) {
 		(room1.y <= room2.y + room2.height-1) && (room1.y + room1.height-1 >= room2.y);
 }
 
+Point center(Room room) {
+	int centerX = room.x + room.width/2;
+	int centerY = room.y + room.height/2;
+	Point centerPoint = {centerX, centerY};
+	return centerPoint;
+}
+
+void generateHorizontalTunnel(int x1, int x2, int y, Tile map[MAP_WIDTH][MAP_HEIGHT]){
+	int min = x1 < x2 ? x1 : x2;
+	int max = x1 > x2 ? x1 : x2;
+	for (int i = min; i <= max; i++) {
+		Tile floorTile = { 1, 1, '.', YELLOW};
+		map[i][y] = floorTile;
+	}
+}
+
+void generateVerticalTunnel(int y1, int y2, int x, Tile map[MAP_WIDTH][MAP_HEIGHT]) {
+	int min = y1 < y2 ? y1 : y2;
+	int max = y1 > y2 ? y1 : y2;
+	for (int j = min; j <= max; j++) {
+		Tile floorTile = { 1, 1, '.', YELLOW};
+		map[x][j] = floorTile;
+	}
+}
+
 void generateRooms(int maxRooms, int roomSizeMax, int roomSizeMin, Tile map[MAP_WIDTH][MAP_HEIGHT]){
 	Room rooms[maxRooms];
 	int roomCount = 0;
@@ -61,10 +77,19 @@ void generateRooms(int maxRooms, int roomSizeMax, int roomSizeMin, Tile map[MAP_
 			}
 		}		
 		if (!failed) {
-			addRoomToMap(room, map);
 			rooms[roomCount] = room;
+			if (roomCount > 0) {
+				Point newCenter = center(room);	
+				Room lastRoom = rooms[roomCount-1];
+				Point lastCenter = center(lastRoom);
+				generateHorizontalTunnel(lastCenter.x, newCenter.x, lastCenter.y, map);
+				generateVerticalTunnel(lastCenter.y, newCenter.y, newCenter.y, map);
+			}
 			roomCount++;
 		}
 
+	}
+	for (int i = 0; i < roomCount; i++) {
+		addRoomToMap(rooms[i], map);
 	}
 }
