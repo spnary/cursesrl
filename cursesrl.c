@@ -18,10 +18,12 @@ int main() {
 	wborder(mapWin, '|','|','-','-','+','+','+','+');
 	wrefresh(mapWin);
 	refresh();
-	Object player = { 25, 25, '@', CYAN};
 	Tile map[MAP_WIDTH][MAP_HEIGHT];
 	initializeMap(map);
-	generateRooms(MAX_ROOMS, ROOM_SIZE_MAX, ROOM_SIZE_MIN, map);
+	Room rooms[MAX_ROOMS];
+	generateRooms(ROOM_SIZE_MAX, ROOM_SIZE_MIN, map, rooms);
+	Point startPoint = center(rooms[0]);
+	Object player = { startPoint.x, startPoint.y, '@', CYAN};
 	while(1) {
 		wclear(mapWin);
 		for (int i = 0; i < MAP_WIDTH; i++) {

@@ -59,10 +59,9 @@ void generateVerticalTunnel(int y1, int y2, int x, Tile map[MAP_WIDTH][MAP_HEIGH
 	}
 }
 
-void generateRooms(int maxRooms, int roomSizeMax, int roomSizeMin, Tile map[MAP_WIDTH][MAP_HEIGHT]){
-	Room rooms[maxRooms];
+void generateRooms(int roomSizeMax, int roomSizeMin, Tile map[MAP_WIDTH][MAP_HEIGHT], Room rooms[MAX_ROOMS]){
 	int roomCount = 0;
-	for (int i = 0; i < maxRooms; i++) {
+	for (int i = 0; i < MAX_ROOMS; i++) {
 		int w = rand() % roomSizeMax + roomSizeMin;
 		int h = rand() % roomSizeMax + roomSizeMin;
 		int x = rand() % (MAP_WIDTH - w - 1 );
@@ -70,7 +69,7 @@ void generateRooms(int maxRooms, int roomSizeMax, int roomSizeMin, Tile map[MAP_
 
 		Room room = {x, y, w, h};
 		int failed = 0;
-		for (int j = 0; j < maxRooms; j++) {
+		for (int j = 0; j < MAX_ROOMS; j++) {
 			if (roomsIntersect(rooms[j], room)) {
 				failed = 1;
 				break;
