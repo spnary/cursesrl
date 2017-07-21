@@ -21,8 +21,7 @@ int main() {
 	Object player = { 25, 25, '@', CYAN};
 	Tile map[MAP_WIDTH][MAP_HEIGHT];
 	initializeMap(map);
-	Room room = {20, 20, 10, 10 };
-	addRoomToMap(room, map);
+	generateRooms(MAX_ROOMS, ROOM_SIZE_MAX, ROOM_SIZE_MIN, map);
 	while(1) {
 		wclear(mapWin);
 		for (int i = 0; i < MAP_WIDTH; i++) {

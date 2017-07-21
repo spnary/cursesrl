@@ -21,3 +21,5 @@ typedef struct room {
 void initializeMap(Tile map[MAP_WIDTH][MAP_HEIGHT]); 
 void addRoomToMap(Room room, Tile map[MAP_WIDTH][MAP_HEIGHT]);
 void printTile(Tile tile, WINDOW *win, int x, int y);
+void generateRooms(int maxRooms, int roomSizeMax, int roomSizeMin, Tile map[MAP_WIDTH][MAP_HEIGHT]);
+int roomsIntersect(Room room1, Room room2);
