@@ -45,7 +45,7 @@ void generateHorizontalTunnel(int x1, int x2, int y, Tile map[MAP_WIDTH][MAP_HEI
 	int min = x1 < x2 ? x1 : x2;
 	int max = x1 > x2 ? x1 : x2;
 	for (int i = min; i <= max; i++) {
-		Tile floorTile = { 1, 1, '.', YELLOW};
+		Tile floorTile = { 0, 0, '.', YELLOW};
 		map[i][y] = floorTile;
 	}
 }
@@ -54,7 +54,7 @@ void generateVerticalTunnel(int y1, int y2, int x, Tile map[MAP_WIDTH][MAP_HEIGH
 	int min = y1 < y2 ? y1 : y2;
 	int max = y1 > y2 ? y1 : y2;
 	for (int j = min; j <= max; j++) {
-		Tile floorTile = { 1, 1, '.', YELLOW};
+		Tile floorTile = { 0, 0, '.', YELLOW};
 		map[x][j] = floorTile;
 	}
 }
@@ -77,18 +77,21 @@ void generateRooms(int roomSizeMax, int roomSizeMin, Tile map[MAP_WIDTH][MAP_HEI
 		}		
 		if (!failed) {
 			rooms[roomCount] = room;
+			addRoomToMap(room, map);
 			if (roomCount > 0) {
 				Point newCenter = center(room);	
 				Room lastRoom = rooms[roomCount-1];
 				Point lastCenter = center(lastRoom);
-				generateHorizontalTunnel(lastCenter.x, newCenter.x, lastCenter.y, map);
-				generateVerticalTunnel(lastCenter.y, newCenter.y, newCenter.y, map);
+				if (rand() % 2 == 0) {
+					generateHorizontalTunnel(lastCenter.x, newCenter.x, lastCenter.y, map);
+					generateVerticalTunnel(lastCenter.y, newCenter.y, newCenter.x, map);
+				} else {
+			 		generateVerticalTunnel(lastCenter.y, newCenter.y, lastCenter.x, map);
+				  	generateHorizontalTunnel(newCenter.x, lastCenter.x, newCenter.y, map);
+				}
 			}
 			roomCount++;
 		}
 
-	}
-	for (int i = 0; i < roomCount; i++) {
-		addRoomToMap(rooms[i], map);
 	}
 }
