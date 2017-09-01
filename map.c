@@ -1,3 +1,4 @@
+#include <time.h>
 #include <stdlib.h>
 #include "map.h"
 
@@ -63,6 +64,7 @@ void generateVerticalTunnel(int y1, int y2, int x, Tile map[MAP_WIDTH][MAP_HEIGH
 }
 
 void generateRooms(int roomSizeMax, int roomSizeMin, Tile map[MAP_WIDTH][MAP_HEIGHT], Room rooms[MAX_ROOMS]){
+	srand(time(NULL));
 	int roomCount = 0;
 	for (int i = 0; i < MAX_ROOMS; i++) {
 		int w = rand() % roomSizeMax + roomSizeMin;
