@@ -11,9 +11,8 @@ void moveObject(Object *obj, Tile map[MAP_WIDTH][MAP_HEIGHT],  int x, int y) {
 int handleKey(int key, Object *obj, Tile map[MAP_WIDTH][MAP_HEIGHT]) {
 	switch(key) {
 		case KEY_UP:
-			moveObject(obj, map, 0, -1); 
+			moveObject(obj, map, 0, -1);
 			return 0;
-				
 		case KEY_DOWN:
 			moveObject(obj, map, 0, 1);
 			return 0;

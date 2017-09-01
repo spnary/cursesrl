@@ -25,6 +25,9 @@ int main() {
 	Point startPoint = center(rooms[0]);
 	Object player = { startPoint.x, startPoint.y, '@', CYAN};
 	while(1) {
+		int sightRadius = 5;
+		Point position = {player.x, player.y};
+		updateVisibility(map, position, sightRadius);
 		wclear(mapWin);
 		for (int i = 0; i < MAP_WIDTH; i++) {
 			for (int j = 0; j < MAP_HEIGHT; j++) {

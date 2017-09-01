@@ -4,14 +4,14 @@
 void initializeMap(Tile map[MAP_WIDTH][MAP_HEIGHT]) {
 	for (int i = 0; i < MAP_WIDTH; i++) {
 		for (int j = 0; j < MAP_HEIGHT; j++) {
-			Tile tile = { 1, 1, '#', WHITE};
+			Tile tile = { 1, 1, '#', WHITE, 0};
 			map[i][j] = tile;
 		}
 	}
 }
 
 void addRoomToMap(Room room, Tile map[MAP_WIDTH][MAP_HEIGHT]){
-	Tile floorTile = { 0, 0, '.', YELLOW};
+	Tile floorTile = { 0, 0, '.', YELLOW, 0};
 	for (int i = room.x; i < room.x + room.width; i++) {
 		for (int j = room.y; j < room.y + room.height; j++) {
 			map[i][j] = floorTile;
@@ -21,13 +21,16 @@ void addRoomToMap(Room room, Tile map[MAP_WIDTH][MAP_HEIGHT]){
 }
 
 void printTile(Tile tile, WINDOW *win, int x, int y) {
-	char icon[2];
-	icon[0] = tile.icon;
-	icon[1] = '\0';
-	wattron(win, COLOR_PAIR(tile.colorPair));
-	mvwprintw(win, y, x, icon); 
-	wattroff(win, COLOR_PAIR(tile.colorPair));
+	if (tile.explored) {
+		char icon[2];
+		icon[0] = tile.icon;
+		icon[1] = '\0';
+		wattron(win, COLOR_PAIR(tile.colorPair));
+		mvwprintw(win, y, x, icon); 
+		wattroff(win, COLOR_PAIR(tile.colorPair));
+	}
 }
+
 
 int roomsIntersect(Room room1, Room room2) {
 	return (room1.x <= room2.x + room2.width-1) && (room1.x + room1.width-1  >= room2.x) &&
@@ -45,7 +48,7 @@ void generateHorizontalTunnel(int x1, int x2, int y, Tile map[MAP_WIDTH][MAP_HEI
 	int min = x1 < x2 ? x1 : x2;
 	int max = x1 > x2 ? x1 : x2;
 	for (int i = min; i <= max; i++) {
-		Tile floorTile = { 0, 0, '.', YELLOW};
+		Tile floorTile = { 0, 0, '.', YELLOW, 0};
 		map[i][y] = floorTile;
 	}
 }
@@ -54,7 +57,7 @@ void generateVerticalTunnel(int y1, int y2, int x, Tile map[MAP_WIDTH][MAP_HEIGH
 	int min = y1 < y2 ? y1 : y2;
 	int max = y1 > y2 ? y1 : y2;
 	for (int j = min; j <= max; j++) {
-		Tile floorTile = { 0, 0, '.', YELLOW};
+		Tile floorTile = { 0, 0, '.', YELLOW, 0};
 		map[x][j] = floorTile;
 	}
 }
@@ -93,5 +96,20 @@ void generateRooms(int roomSizeMax, int roomSizeMin, Tile map[MAP_WIDTH][MAP_HEI
 			roomCount++;
 		}
 
+	}
+}
+
+void updateVisibility(Tile map[MAP_WIDTH][MAP_HEIGHT], Point point, int radius){
+	int minX = point.x - radius > 0 ? point.x - radius : 0;
+	int maxX = point.x + radius < MAP_WIDTH ? point.x + radius : MAP_WIDTH;
+	int minY = point.y - radius > 0 ? point.y - radius : 0;
+	int maxY = point.y + radius < MAP_HEIGHT ? point.y + radius : MAP_HEIGHT;
+
+	for (int i = minX; i < maxX; i++){
+		for (int j = minY; j < maxY; j++){
+			Tile tile = map[i][j];
+			tile.explored = 1;
+			map[i][j] = tile;
+		}
 	}
 }
