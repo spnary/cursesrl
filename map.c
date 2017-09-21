@@ -21,18 +21,6 @@ void addRoomToMap(Room room, Tile map[MAP_WIDTH][MAP_HEIGHT]){
 
 }
 
-void printTile(Tile tile, WINDOW *win, int x, int y) {
-	if (tile.explored) {
-		char icon[2];
-		icon[0] = tile.icon;
-		icon[1] = '\0';
-		wattron(win, COLOR_PAIR(tile.colorPair));
-		mvwprintw(win, y, x, icon); 
-		wattroff(win, COLOR_PAIR(tile.colorPair));
-	}
-}
-
-
 int roomsIntersect(Room room1, Room room2) {
 	return (room1.x <= room2.x + room2.width-1) && (room1.x + room1.width-1  >= room2.x) &&
 		(room1.y <= room2.y + room2.height-1) && (room1.y + room1.height-1 >= room2.y);

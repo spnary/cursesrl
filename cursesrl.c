@@ -2,6 +2,7 @@
 #include "object.h"
 #include "map.h"
 #include "rlconst.h"
+#include "drawing.h"
 
 int main() {
 	initscr();
@@ -29,12 +30,7 @@ int main() {
 		Point position = {player.x, player.y};
 		updateVisibility(map, position, sightRadius);
 		wclear(mapWin);
-		for (int i = 0; i < MAP_WIDTH; i++) {
-			for (int j = 0; j < MAP_HEIGHT; j++) {
-				Tile tile = map[i][j];
-				printTile(tile, mapWin, i, j);
-			}
-		}
+		drawMap(map, mapWin);
 		printObject(player, mapWin);
 		wrefresh(mapWin);
 		int key = getch();
