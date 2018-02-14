@@ -29,7 +29,7 @@ int main() {
 		int sightRadius = 5;
 		Point position = {player.x, player.y};
 		updateVisibility(map, position, sightRadius);
-		wclear(mapWin);
+		werase(mapWin);
 		drawMap(map, mapWin);
 		printObject(player, mapWin);
 		wrefresh(mapWin);
