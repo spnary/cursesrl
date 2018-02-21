@@ -15,4 +15,4 @@ typedef struct character {
 #endif
 
 int abilityModifier(int score);
-int armorClass(Character character);
+int armorClass(Character *character);

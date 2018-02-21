@@ -2,6 +2,8 @@
 
 const int MAP_WIDTH = 80;
 const int MAP_HEIGHT = 40;
+const int STATS_WIDTH = 20;
+const int STATS_HEIGHT = 40;
 const int ROOM_SIZE_MAX = 10;
 const int ROOM_SIZE_MIN = 6;
 const int MAX_ROOMS = 30;

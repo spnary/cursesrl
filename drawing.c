@@ -19,3 +19,7 @@ void printTile(Tile tile, WINDOW *win, int x, int y) {
     wattroff(win, COLOR_PAIR(tile.colorPair));
   }
 }
+
+void drawStats(Character character, WINDOW *statsWin) {
+	mvwprintw(statsWin, 1, 1, "Strength: %i", character.strength);
+}

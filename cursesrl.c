@@ -3,6 +3,8 @@
 #include "map.h"
 #include "rlconst.h"
 #include "drawing.h"
+#include "character.h"
+#include "armor.h"
 
 int main() {
 	initscr();
@@ -14,25 +16,33 @@ int main() {
 	init_pair(9, COLOR_BLACK, COLOR_WHITE);
 	wbkgd(stdscr, COLOR_PAIR(9));
 	WINDOW *mapWin = newwin(MAP_HEIGHT, MAP_WIDTH, 0, 0);
+	WINDOW *statsWin = newwin(STATS_HEIGHT, STATS_WIDTH, 0, MAP_WIDTH);
+	init_pair(11, COLOR_BLACK, COLOR_CYAN);
+	wbkgd(statsWin, COLOR_PAIR(11));
 	init_pair(10, COLOR_WHITE, COLOR_BLACK);
 	wbkgd(mapWin, COLOR_PAIR(10));
-	wborder(mapWin, '|','|','-','-','+','+','+','+');
 	wrefresh(mapWin);
+	wrefresh(statsWin);
 	refresh();
 	Tile map[MAP_WIDTH][MAP_HEIGHT];
 	initializeMap(map);
 	Room rooms[MAX_ROOMS];
 	generateRooms(ROOM_SIZE_MAX, ROOM_SIZE_MIN, map, rooms);
 	Point startPoint = center(rooms[0]);
-	Object player = { startPoint.x, startPoint.y, '@', CYAN};
+	Armor leatherArmor = { 11, "Leather" };
+	Character pc = { 10, 10, 15, 14, 13, 12, 10, 8, &leatherArmor};
+	Object player = { startPoint.x, startPoint.y, '@', CYAN, pc};
 	while(1) {
 		int sightRadius = 5;
 		Point position = {player.x, player.y};
 		updateVisibility(map, position, sightRadius);
 		werase(mapWin);
+		werase(statsWin);
 		drawMap(map, mapWin);
+		drawStats(player.character, statsWin);
 		printObject(player, mapWin);
 		wrefresh(mapWin);
+		wrefresh(statsWin);
 		int key = getch();
 
 		int exit = handleKey(key, &player, map);
@@ -43,4 +53,3 @@ int main() {
 	endwin();
 	return 0;
 }
-

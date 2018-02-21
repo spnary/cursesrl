@@ -1,6 +1,7 @@
 #include <ncurses.h>
 #include "rlconst.h"
 #include "map.h"
+#include "character.h"
 
 #ifndef __OBJECT
 #define __OBJECT
@@ -9,6 +10,7 @@ typedef struct object {
 	int y;
 	char icon;
 	ColorPair colorPair;
+	Character character;
 } Object;
 #endif
 

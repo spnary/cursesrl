@@ -1,5 +1,5 @@
-cursesrl: object.o cursesrl.o map.o rlconst.o drawing.o
-	clang -g object.o map.o cursesrl.o rlconst.o drawing.o -lncurses -o cursesrl
+cursesrl: object.o cursesrl.o map.o rlconst.o drawing.o character.o
+	clang -g object.o map.o cursesrl.o rlconst.o drawing.o character.o -lncurses -o cursesrl
 object.o: object.h object.c
 	clang -c -g object.c 
 map.o: map.h map.c rlconst.h
@@ -10,3 +10,5 @@ rlconst.o: rlconst.h rlconst.c
 	clang -c -g rlconst.c	
 drawing.o: drawing.h drawing.c rlconst.h map.h
 	clang -c -g drawing.c
+character.o: character.h character.c
+	clang -c -g character.c
