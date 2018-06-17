@@ -21,10 +21,13 @@ void printTile(Tile tile, WINDOW *win, int x, int y) {
 }
 
 void drawStats(Character character, WINDOW *statsWin) {
-	mvwprintw(statsWin, 1, 1, "Strength: %i", character.strength);
-	mvwprintw(statsWin, 2, 1, "Dexterity: %i", character.dexterity);
-	mvwprintw(statsWin, 3, 1, "Constitution: %i", character.constitution);
-	mvwprintw(statsWin, 4, 1, "Intelligence: %i", character.intelligence);
-	mvwprintw(statsWin, 5, 1, "Wisdom: %i", character.wisdom);
-	mvwprintw(statsWin, 6, 1, "Charisma: %i", character.charisma);
+	mvwprintw(statsWin, 1, 1, "HP: %i/%i", character.currentHP, character.maxHP);
+	mvwprintw(statsWin, 2, 1, "AC: %i", character.armor->ac);
+	mvwprintw(statsWin, 3, 1, "------");
+	mvwprintw(statsWin, 4, 1, "Strength: %i", character.strength);
+	mvwprintw(statsWin, 5, 1, "Dexterity: %i", character.dexterity);
+	mvwprintw(statsWin, 6, 1, "Constitution: %i", character.constitution);
+	mvwprintw(statsWin, 7, 1, "Intelligence: %i", character.intelligence);
+	mvwprintw(statsWin, 8, 1, "Wisdom: %i", character.wisdom);
+	mvwprintw(statsWin, 9, 1, "Charisma: %i", character.charisma);
 }
