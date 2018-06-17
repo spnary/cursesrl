@@ -5,6 +5,7 @@
 #include "drawing.h"
 #include "character.h"
 #include "armor.h"
+#include "utility.h"
 
 int main() {
 	initscr();
@@ -30,7 +31,9 @@ int main() {
 	generateRooms(ROOM_SIZE_MAX, ROOM_SIZE_MIN, map, rooms);
 	Point startPoint = center(rooms[0]);
 	Armor leatherArmor = { 11, "Leather" };
-	Character pc = { 10, 10, 15, 14, 13, 12, 10, 8, &leatherArmor};
+    int stats[6]; 
+    generateStats(stats);
+	Character pc = { 10, 10, stats[0], stats[1], stats[2], stats[3], stats[4], stats[5], &leatherArmor};
 	Object player = { startPoint.x, startPoint.y, '@', CYAN, pc};
 	while(1) {
 		int sightRadius = 5;
