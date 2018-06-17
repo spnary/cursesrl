@@ -22,4 +22,9 @@ void printTile(Tile tile, WINDOW *win, int x, int y) {
 
 void drawStats(Character character, WINDOW *statsWin) {
 	mvwprintw(statsWin, 1, 1, "Strength: %i", character.strength);
+	mvwprintw(statsWin, 2, 1, "Dexterity: %i", character.dexterity);
+	mvwprintw(statsWin, 3, 1, "Constitution: %i", character.constitution);
+	mvwprintw(statsWin, 4, 1, "Intelligence: %i", character.intelligence);
+	mvwprintw(statsWin, 5, 1, "Wisdom: %i", character.wisdom);
+	mvwprintw(statsWin, 6, 1, "Charisma: %i", character.charisma);
 }
