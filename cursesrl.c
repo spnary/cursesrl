@@ -30,11 +30,13 @@ int main() {
 	Room rooms[MAX_ROOMS];
 	generateRooms(ROOM_SIZE_MAX, ROOM_SIZE_MIN, map, rooms);
 	Point startPoint = center(rooms[0]);
+	Point monsterStart = center(rooms[1]);
 	Armor leatherArmor = { 11, "Leather" };
     int stats[6]; 
     generateStats(stats);
 	Character pc = { 10, 10, stats[0], stats[1], stats[2], stats[3], stats[4], stats[5], &leatherArmor};
-	Object player = { startPoint.x, startPoint.y, '@', CYAN, pc};
+	Object player = { startPoint.x, startPoint.y, '@', CYAN, &pc};
+	Object monster = { monsterStart.x, monsterStart.y, 'M', RED, NULL};
 	while(1) {
 		int sightRadius = 5;
 		Point position = {player.x, player.y};
@@ -42,8 +44,9 @@ int main() {
 		werase(mapWin);
 		werase(statsWin);
 		drawMap(map, mapWin);
-		drawStats(player.character, statsWin);
+		drawStats(*(player.character), statsWin);
 		printObject(player, mapWin);
+		printObject(monster, mapWin);
 		wrefresh(mapWin);
 		wrefresh(statsWin);
 		int key = getch();
@@ -52,6 +55,7 @@ int main() {
 		if (exit) {
 			break;
 		}
+		moveObjectTowards(&monster, &player, map);
 	}
 	endwin();
 	return 0;
