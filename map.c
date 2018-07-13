@@ -1,5 +1,6 @@
 #include <time.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "map.h"
 
 void initializeMap(Tile map[MAP_WIDTH][MAP_HEIGHT]) {
@@ -21,7 +22,7 @@ void addRoomToMap(Room room, Tile map[MAP_WIDTH][MAP_HEIGHT]){
 
 }
 
-int roomsIntersect(Room room1, Room room2) {
+bool roomsIntersect(Room room1, Room room2) {
 	return (room1.x <= room2.x + room2.width-1) && (room1.x + room1.width-1  >= room2.x) &&
 		(room1.y <= room2.y + room2.height-1) && (room1.y + room1.height-1 >= room2.y);
 }
@@ -51,41 +52,55 @@ void generateVerticalTunnel(int y1, int y2, int x, Tile map[MAP_WIDTH][MAP_HEIGH
 	}
 }
 
+Room makeRoom(int roomSizeMax, int roomSizeMin){
+	int width = rand() % roomSizeMax + roomSizeMin;
+	int height = rand() % roomSizeMax + roomSizeMin;
+	int x = rand() % (MAP_WIDTH - width - 1 );
+	int y = rand() % (MAP_HEIGHT - height - 1);
+
+	Room room = {x, y, width, height};
+	return room;
+}
+
+bool doesRoomIntersectExistingRooms(Room room, Room rooms[]) {
+  bool intersects = false;
+	for (int i = 0; i < MAX_ROOMS; i++) {
+		if (roomsIntersect(rooms[i], room)) {
+			intersects = true;
+			break;
+		}
+	}
+	return intersects;
+}
+
+void connectRoomWithPreviousRoomInMap(Room newRoom, Room previousRoom, Tile map[MAP_WIDTH][MAP_HEIGHT]) {
+	Point newCenter = center(newRoom);	
+	Point previousCenter = center(previousRoom);
+	if (rand() % 2 == 0) {
+		generateHorizontalTunnel(previousCenter.x, newCenter.x, previousCenter.y, map);
+		generateVerticalTunnel(previousCenter.y, newCenter.y, newCenter.x, map);
+	} else {
+ 		generateVerticalTunnel(previousCenter.y, newCenter.y, previousCenter.x, map);
+	  	generateHorizontalTunnel(newCenter.x, previousCenter.x, newCenter.y, map);
+	}
+  
+}
+
 void generateRooms(int roomSizeMax, int roomSizeMin, Tile map[MAP_WIDTH][MAP_HEIGHT], Room rooms[MAX_ROOMS]){
 	srand(time(NULL));
 	int roomCount = 0;
 	for (int i = 0; i < MAX_ROOMS; i++) {
-		int w = rand() % roomSizeMax + roomSizeMin;
-		int h = rand() % roomSizeMax + roomSizeMin;
-		int x = rand() % (MAP_WIDTH - w - 1 );
-		int y = rand() % (MAP_HEIGHT - h - 1);
-
-		Room room = {x, y, w, h};
-		int failed = 0;
-		for (int j = 0; j < MAX_ROOMS; j++) {
-			if (roomsIntersect(rooms[j], room)) {
-				failed = 1;
-				break;
-			}
-		}		
-		if (!failed) {
+	  Room room = makeRoom(roomSizeMax, roomSizeMin);
+	  bool roomIntersects = doesRoomIntersectExistingRooms(room, rooms);
+	  if (!roomIntersects) {
 			rooms[roomCount] = room;
 			addRoomToMap(room, map);
 			if (roomCount > 0) {
-				Point newCenter = center(room);	
-				Room lastRoom = rooms[roomCount-1];
-				Point lastCenter = center(lastRoom);
-				if (rand() % 2 == 0) {
-					generateHorizontalTunnel(lastCenter.x, newCenter.x, lastCenter.y, map);
-					generateVerticalTunnel(lastCenter.y, newCenter.y, newCenter.x, map);
-				} else {
-			 		generateVerticalTunnel(lastCenter.y, newCenter.y, lastCenter.x, map);
-				  	generateHorizontalTunnel(newCenter.x, lastCenter.x, newCenter.y, map);
-				}
+  				Room lastRoom = rooms[roomCount-1];
+				connectRoomWithPreviousRoomInMap(room, lastRoom, map);
 			}
 			roomCount++;
 		}
-
 	}
 }
 
