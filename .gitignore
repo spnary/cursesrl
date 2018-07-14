@@ -1,5 +1,6 @@
 *.o
 cursesrl
+tests
 *.swp
 .DS_Store
 *~

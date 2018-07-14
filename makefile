@@ -14,3 +14,8 @@ character.o: character.h character.c
 	clang -c -g character.c
 utility.o: utility.h utility.c
 	clang -c -g utility.c
+
+utility_tests.o: utility.h utility_tests.c
+	clang -c -g `pkg-config --cflags glib-2.0`  utility_tests.c 
+tests: utility_tests.o
+	clang -g utility_tests.o utility.o `pkg-config --libs glib-2.0` -o tests
