@@ -3,20 +3,20 @@
 #include <stdbool.h>
 #include "map.h"
 
-void initializeMap(Tile map[MAP_WIDTH][MAP_HEIGHT]) {
+void initializeMap(Map *map){
 	for (int i = 0; i < MAP_WIDTH; i++) {
 		for (int j = 0; j < MAP_HEIGHT; j++) {
 			Tile tile = { 1, 1, '#', WHITE, 0};
-			map[i][j] = tile;
+			map->tiles[i][j] = tile;
 		}
 	}
 }
 
-void addRoomToMap(Room room, Tile map[MAP_WIDTH][MAP_HEIGHT]){
+void addRoomToMap(Room room, Tile tiles[MAP_WIDTH][MAP_HEIGHT]){
 	Tile floorTile = { 0, 0, '.', YELLOW, 0};
 	for (int i = room.x; i < room.x + room.width; i++) {
 		for (int j = room.y; j < room.y + room.height; j++) {
-			map[i][j] = floorTile;
+			tiles[i][j] = floorTile;
 		}
 	}
 
@@ -104,7 +104,7 @@ void generateRooms(int roomSizeMax, int roomSizeMin, Tile map[MAP_WIDTH][MAP_HEI
 	}
 }
 
-void updateVisibility(Tile map[MAP_WIDTH][MAP_HEIGHT], Point point, int radius){
+void updateVisibility(Map *map, Point point, int radius){
 	int minX = point.x - radius > 0 ? point.x - radius : 0;
 	int maxX = point.x + radius < MAP_WIDTH ? point.x + radius : MAP_WIDTH;
 	int minY = point.y - radius > 0 ? point.y - radius : 0;
@@ -112,9 +112,9 @@ void updateVisibility(Tile map[MAP_WIDTH][MAP_HEIGHT], Point point, int radius){
 
 	for (int i = minX; i < maxX; i++){
 		for (int j = minY; j < maxY; j++){
-			Tile tile = map[i][j];
+			Tile tile = map->tiles[i][j];
 			tile.explored = 1;
-			map[i][j] = tile;
+			map->tiles[i][j] = tile;
 		}
 	}
 }

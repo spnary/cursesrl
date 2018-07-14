@@ -1,8 +1,8 @@
-const int MAP_WIDTH;
-const int MAP_HEIGHT;
+#define MAP_WIDTH 80
+#define MAP_HEIGHT 40
+#define MAX_ROOMS 30
 const int ROOM_SIZE_MAX;
 const int ROOM_SIZE_MIN;
-const int MAX_ROOMS;
 const int STATS_WIDTH;
 const int STATS_HEIGHT;
 

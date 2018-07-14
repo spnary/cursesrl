@@ -22,11 +22,17 @@ typedef struct room {
 	int width;
 	int height;
 } Room;
+
+typedef struct map {
+  Tile tiles[MAP_WIDTH][MAP_HEIGHT];
+  Room rooms[MAX_ROOMS];
+} Map;
+
 #endif
 
-void initializeMap(Tile map[MAP_WIDTH][MAP_HEIGHT]); 
-void addRoomToMap(Room room, Tile map[MAP_WIDTH][MAP_HEIGHT]);
+void initializeMap(Map *map);
+void addRoomToMap(Room room, Tile tiles[MAP_WIDTH][MAP_HEIGHT]);
 
 void generateRooms(int roomSizeMax, int roomSizeMin, Tile map[MAP_WIDTH][MAP_HEIGHT], Room rooms[MAX_ROOMS]);
 Point center(Room room); 
-void updateVisibility(Tile map[MAP_WIDTH][MAP_HEIGHT], Point point, int radius);
+void updateVisibility(Map *map, Point point, int radius);
