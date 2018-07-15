@@ -9,11 +9,7 @@
 #include "utility.h"
 
 Map *generateMap() {
-  Tile tiles[MAP_WIDTH][MAP_HEIGHT];
-  Room rooms[MAX_ROOMS];
-  Map tempMap = { {tiles}, {rooms} };
-  Map *map = malloc(sizeof(Map));
-  *map = tempMap;
+  Map *map = (Map*)malloc(sizeof(Map));
   initializeMap(map);
   generateRooms(ROOM_SIZE_MAX, ROOM_SIZE_MIN, map->tiles, map->rooms);
   return map;
