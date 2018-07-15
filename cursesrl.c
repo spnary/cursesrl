@@ -8,13 +8,6 @@
 #include "armor.h"
 #include "utility.h"
 
-Map *generateMap() {
-  Map *map = (Map*)malloc(sizeof(Map));
-  initializeMap(map);
-  generateRooms(ROOM_SIZE_MAX, ROOM_SIZE_MIN, map->tiles, map->rooms);
-  return map;
-}
-
 Character *initializePC() {
   Armor *leatherArmor = malloc(sizeof(Armor));
   *leatherArmor = (Armor){ 11, "Leather" };

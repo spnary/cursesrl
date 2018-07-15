@@ -3,6 +3,8 @@
 #include <stdbool.h>
 #include "map.h"
 
+
+
 void initializeMap(Map *map){
 	for (int i = 0; i < MAP_WIDTH; i++) {
 		for (int j = 0; j < MAP_HEIGHT; j++) {
@@ -117,4 +119,11 @@ void updateVisibility(Map *map, Point point, int radius){
 			map->tiles[i][j] = tile;
 		}
 	}
+}
+
+Map *generateMap() {
+  Map *map = (Map*)malloc(sizeof(Map));
+  initializeMap(map);
+  generateRooms(ROOM_SIZE_MAX, ROOM_SIZE_MIN, map->tiles, map->rooms);
+  return map;
 }
