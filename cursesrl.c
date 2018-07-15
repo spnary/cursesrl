@@ -15,6 +15,16 @@ Map *generateMap() {
   return map;
 }
 
+Character *initializePC() {
+  Armor *leatherArmor = malloc(sizeof(Armor));
+  *leatherArmor = (Armor){ 11, "Leather" };
+  int stats[6]; 
+  generateStats(stats);
+  Character *pc = malloc(sizeof(Character));
+  *pc  =(Character){ 10, 10, stats[0], stats[1], stats[2], stats[3], stats[4], stats[5], leatherArmor};
+  return pc;
+}
+
 int main() {
         initscr();
         start_color();
@@ -36,11 +46,8 @@ int main() {
         Map *map = generateMap();
         Point startPoint = center(map->rooms[0]);
         Point monsterStart = center(map->rooms[1]);
-        Armor leatherArmor = { 11, "Leather" };
-    int stats[6]; 
-    generateStats(stats);
-	Character pc = { 10, 10, stats[0], stats[1], stats[2], stats[3], stats[4], stats[5], &leatherArmor};
-	Object player = { startPoint.x, startPoint.y, '@', CYAN, &pc};
+	Character *pc = initializePC();
+	Object player = { startPoint.x, startPoint.y, '@', CYAN, pc};
 	Object monster = { monsterStart.x, monsterStart.y, 'M', RED, NULL};
 	while(1) {
 		int sightRadius = 5;
@@ -63,6 +70,8 @@ int main() {
 		moveObjectTowards(&monster, &player, map->tiles);
 	}
 	free(map);
+	free(pc->armor);
+	free(pc);
 	endwin();
 	return 0;
 }
