@@ -8,7 +8,7 @@
 #include "armor.h"
 #include "utility.h"
 
-int main() {
+void setupScreen() {
         initscr();
         start_color();
         initializeColorPairs();
@@ -17,19 +17,34 @@ int main() {
         noecho();
         init_pair(9, COLOR_BLACK, COLOR_WHITE);
         wbkgd(stdscr, COLOR_PAIR(9));
-        WINDOW *mapWin = newwin(MAP_HEIGHT, MAP_WIDTH, 0, 0);
-        WINDOW *statsWin = newwin(STATS_HEIGHT, STATS_WIDTH, 0, MAP_WIDTH);
-        init_pair(11, COLOR_BLACK, COLOR_CYAN);
-        wbkgd(statsWin, COLOR_PAIR(11));
-        init_pair(10, COLOR_WHITE, COLOR_BLACK);
-        wbkgd(mapWin, COLOR_PAIR(10));
+}
+
+WINDOW *initializeMapWindow() {
+  WINDOW *mapWin = newwin(MAP_HEIGHT, MAP_WIDTH, 0, 0);
+  init_pair(10, COLOR_WHITE, COLOR_BLACK);
+  wbkgd(mapWin, COLOR_PAIR(10));
+  return mapWin;
+}
+
+WINDOW *initializeStatsWindow() {
+  WINDOW *statsWin = newwin(STATS_HEIGHT, STATS_WIDTH, 0, MAP_WIDTH);
+  init_pair(11, COLOR_BLACK, COLOR_CYAN);
+  wbkgd(statsWin, COLOR_PAIR(11));
+  return statsWin;
+}
+
+int main() {
+  setupScreen();
+  WINDOW *mapWin = initializeMapWindow();
+  WINDOW *statsWin = initializeStatsWindow();
+
         wrefresh(mapWin);
         wrefresh(statsWin);
         refresh();
         Map *map = generateMap();
+	Character *pc = generatePC();
         Point startPoint = center(map->rooms[0]);
         Point monsterStart = center(map->rooms[1]);
-	Character *pc = initializePC();
 	Object player = { startPoint.x, startPoint.y, '@', CYAN, pc};
 	Object monster = { monsterStart.x, monsterStart.y, 'M', RED, NULL};
 	while(1) {
@@ -56,5 +71,7 @@ int main() {
 	free(pc->armor);
 	free(pc);
 	endwin();
+	free(mapWin);
+	free(statsWin);
 	return 0;
 }

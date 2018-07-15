@@ -10,7 +10,7 @@ int armorClass(Character *character) {
 	return character->armor->ac + abilityModifier(character->dexterity);
 }
 
-Character *initializePC() {
+Character *generatePC() {
   Armor *leatherArmor = malloc(sizeof(Armor));
   *leatherArmor = (Armor){ 11, "Leather" };
   int stats[6]; 
