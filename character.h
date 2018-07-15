@@ -17,3 +17,5 @@ typedef struct character {
 int abilityModifier(int score);
 int armorClass(Character *character);
 Character *generatePC();
+void freeCharacter(Character *character);
+

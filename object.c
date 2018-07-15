@@ -1,4 +1,5 @@
 #include "object.h"
+#include "character.h"
 #include <stdlib.h>
 
 void moveObject(Object *obj, Tile map[MAP_WIDTH][MAP_HEIGHT],  int x, int y) {
@@ -69,4 +70,12 @@ void printObject(Object obj, WINDOW *win) {
 	wattron(win, COLOR_PAIR(obj.colorPair));
 	mvwprintw(win, obj.y, obj.x, icon); 
 	wattroff(win, COLOR_PAIR(obj.colorPair));
+}
+
+void freeObject(Object *obj) {
+  Character *character = obj->character;
+  if (character) {
+    freeCharacter(character);
+  }
+  free(obj);
 }

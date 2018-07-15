@@ -76,8 +76,7 @@ int main() {
 		moveObjectTowards(monster, player, map->tiles);
 	}
 	free(map);
-	free(pc->armor);
-	free(pc);
+	freeCharacter(pc);
 	endwin();
 	free(mapWin);
 	free(statsWin);

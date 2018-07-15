@@ -19,3 +19,8 @@ Character *generatePC() {
   *pc  =(Character){ 10, 10, stats[0], stats[1], stats[2], stats[3], stats[4], stats[5], leatherArmor};
   return pc;
 }
+
+void freeCharacter(Character *character) {
+  free(character->armor);
+  free(character);
+}
