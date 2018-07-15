@@ -8,16 +8,6 @@
 #include "armor.h"
 #include "utility.h"
 
-Character *initializePC() {
-  Armor *leatherArmor = malloc(sizeof(Armor));
-  *leatherArmor = (Armor){ 11, "Leather" };
-  int stats[6]; 
-  generateStats(stats);
-  Character *pc = malloc(sizeof(Character));
-  *pc  =(Character){ 10, 10, stats[0], stats[1], stats[2], stats[3], stats[4], stats[5], leatherArmor};
-  return pc;
-}
-
 int main() {
         initscr();
         start_color();

@@ -16,3 +16,4 @@ typedef struct character {
 
 int abilityModifier(int score);
 int armorClass(Character *character);
+Character *initializePC();
