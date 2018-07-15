@@ -33,6 +33,22 @@ WINDOW *initializeStatsWindow() {
   return statsWin;
 }
 
+void updateUI(Object *objects[], int objectCount, Object *player, Map *map, WINDOW *mapWin, WINDOW *statsWin) {
+  int sightRadius = 5;
+  Point position = {player->x, player->y};
+  updateVisibility(map, position, sightRadius);
+  werase(mapWin);
+  werase(statsWin);
+  drawMap(map->tiles, mapWin);
+  drawStats(*(player->character), statsWin);
+  printObject(*player, mapWin);
+  for (int i = 0; i < objectCount; i++) {
+    printObject(*(objects[i]), mapWin);
+  }
+  wrefresh(mapWin);
+  wrefresh(statsWin);
+}
+
 int main() {
   setupScreen();
   WINDOW *mapWin = initializeMapWindow();
@@ -45,27 +61,19 @@ int main() {
 	Character *pc = generatePC();
         Point startPoint = center(map->rooms[0]);
         Point monsterStart = center(map->rooms[1]);
-	Object player = { startPoint.x, startPoint.y, '@', CYAN, pc};
-	Object monster = { monsterStart.x, monsterStart.y, 'M', RED, NULL};
+	Object *player = &(Object){ startPoint.x, startPoint.y, '@', CYAN, pc};
+	Object *monster = &(Object){ monsterStart.x, monsterStart.y, 'M', RED, NULL};
+	Object *monsters[] = {monster};
+	int monsterCount = 1;
 	while(1) {
-		int sightRadius = 5;
-		Point position = {player.x, player.y};
-		updateVisibility(map, position, sightRadius);
-		werase(mapWin);
-		werase(statsWin);
-		drawMap(map->tiles, mapWin);
-		drawStats(*(player.character), statsWin);
-		printObject(player, mapWin);
-		printObject(monster, mapWin);
-		wrefresh(mapWin);
-		wrefresh(statsWin);
+	  updateUI(monsters, monsterCount, player, map, mapWin, statsWin);
 		int key = getch();
 
-		int exit = handleKey(key, &player, map->tiles);
+		int exit = handleKey(key, player, map->tiles);
 		if (exit) {
 			break;
 		}
-		moveObjectTowards(&monster, &player, map->tiles);
+		moveObjectTowards(monster, player, map->tiles);
 	}
 	free(map);
 	free(pc->armor);
