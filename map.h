@@ -3,6 +3,12 @@
 
 #ifndef __MAP
 #define __MAP
+
+typedef enum {
+  wall,
+  floor
+} TileType;
+
 typedef struct point {
 	int x;
 	int y;
@@ -11,8 +17,7 @@ typedef struct point {
 typedef struct tile {
 	int blocked;
 	int blockSight;
-	char icon;
-	ColorPair colorPair;
+	TileType type;
 	int explored;
 } Tile;
 

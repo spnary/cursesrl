@@ -1,5 +1,27 @@
 #include "drawing.h"
 
+char characterForTileType(TileType type) {
+  switch (type) {
+  case wall:
+    return '#';
+  case floor:
+    return '.';
+  default:
+    return ' ';
+  }
+}
+
+ColorPair colorPairForTileType(TileType type) {
+  switch (type) {
+  case wall:
+    return WHITE;
+  case floor:
+    return YELLOW;
+  default:
+    return BLACK;
+  }
+}
+
 void drawMap(Tile map[MAP_WIDTH][MAP_HEIGHT], WINDOW *mapWin) {
   for (int i = 0; i < MAP_WIDTH; i++) {
     for (int j = 0; j < MAP_HEIGHT; j++) {
@@ -12,11 +34,12 @@ void drawMap(Tile map[MAP_WIDTH][MAP_HEIGHT], WINDOW *mapWin) {
 void printTile(Tile tile, WINDOW *win, int x, int y) {
   if (tile.explored) {
     char icon[2];
-    icon[0] = tile.icon;
+    icon[0] = characterForTileType(tile.type);
     icon[1] = '\0';
-    wattron(win, COLOR_PAIR(tile.colorPair));
+    ColorPair colorPair = colorPairForTileType(tile.type);
+    wattron(win, COLOR_PAIR(colorPair));
     mvwprintw(win, y, x, icon); 
-    wattroff(win, COLOR_PAIR(tile.colorPair));
+    wattroff(win, COLOR_PAIR(colorPair));
   }
 }
 

@@ -8,14 +8,14 @@
 void initializeMap(Map *map){
 	for (int i = 0; i < MAP_WIDTH; i++) {
 		for (int j = 0; j < MAP_HEIGHT; j++) {
-			Tile tile = { 1, 1, '#', WHITE, 0};
+			Tile tile = { 1, 1, wall, 0};
 			map->tiles[i][j] = tile;
 		}
 	}
 }
 
 void addRoomToMap(Room room, Tile tiles[MAP_WIDTH][MAP_HEIGHT]){
-	Tile floorTile = { 0, 0, '.', YELLOW, 0};
+	Tile floorTile = { 0, 0, floor, 0};
 	for (int i = room.x; i < room.x + room.width; i++) {
 		for (int j = room.y; j < room.y + room.height; j++) {
 			tiles[i][j] = floorTile;
@@ -40,7 +40,7 @@ void generateHorizontalTunnel(int x1, int x2, int y, Tile map[MAP_WIDTH][MAP_HEI
 	int min = x1 < x2 ? x1 : x2;
 	int max = x1 > x2 ? x1 : x2;
 	for (int i = min; i <= max; i++) {
-		Tile floorTile = { 0, 0, '.', YELLOW, 0};
+		Tile floorTile = { 0, 0, floor, 0};
 		map[i][y] = floorTile;
 	}
 }
@@ -49,7 +49,7 @@ void generateVerticalTunnel(int y1, int y2, int x, Tile map[MAP_WIDTH][MAP_HEIGH
 	int min = y1 < y2 ? y1 : y2;
 	int max = y1 > y2 ? y1 : y2;
 	for (int j = min; j <= max; j++) {
-		Tile floorTile = { 0, 0, '.', YELLOW, 0};
+		Tile floorTile = { 0, 0, floor, 0};
 		map[x][j] = floorTile;
 	}
 }
