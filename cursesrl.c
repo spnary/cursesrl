@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <ncurses.h>
+#include <stdbool.h>
 #include "object.h"
 #include "map.h"
 #include "rlconst.h"
@@ -69,7 +70,7 @@ int main() {
 	  updateUI(monsters, monsterCount, player, map, mapWin, statsWin);
 		int key = getch();
 
-		int exit = handleKey(key, player, map->tiles);
+		bool exit = handleKey(key, player, map->tiles);
 		if (exit) {
 			break;
 		}

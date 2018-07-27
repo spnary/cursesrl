@@ -1,6 +1,7 @@
 #include "object.h"
 #include "character.h"
 #include <stdlib.h>
+#include <stdbool.h>
 
 void moveObject(Object *obj, Tile map[MAP_WIDTH][MAP_HEIGHT],  int x, int y) {
 	Tile tile = map[obj->x + x][obj->y + y];
@@ -38,28 +39,28 @@ void moveObjectTowards(Object *obj, Object *towardsObject, Tile map[MAP_WIDTH][M
 	}
 }
 
-int handleKey(int key, Object *obj, Tile map[MAP_WIDTH][MAP_HEIGHT]) {
+bool handleKey(int key, Object *obj, Tile map[MAP_WIDTH][MAP_HEIGHT]) {
 	switch(key) {
 		case 'k':
 		case KEY_UP:
 			moveObject(obj, map, 0, -1);
-			return 0;
+			return false;
 		case 'j':
 		case KEY_DOWN:
 			moveObject(obj, map, 0, 1);
-			return 0;
+			return false;
 		case 'h':
 		case KEY_LEFT:
 			moveObject(obj, map, -1, 0);
-				return 0;
+				return false;
 		case 'l':
 		case KEY_RIGHT:
 			moveObject(obj, map, 1, 0);
-				return 0;
+				return false;
 		case 'q':
-				return 1;
+				return true;
 		default:
-				return 0;
+				return false;
 	}
 }
 
