@@ -14,8 +14,14 @@ character.o: character.h character.c
 	clang -c -g character.c
 utility.o: utility.h utility.c
 	clang -c -g utility.c
+weapon.o: weapon.h weapon.c
+	clang -c -g weapon.c
 
-utility_tests.o: utility.h utility_tests.c
-	clang -c -g `pkg-config --cflags glib-2.0`  utility_tests.c 
-tests: utility_tests.o
-	clang -g utility_tests.o utility.o `pkg-config --libs glib-2.0` -o tests
+utility_tests.o: utility.h utility_tests.h utility_tests.c
+	clang -c -g `pkg-config --cflags glib-2.0`  utility_tests.c
+weapon_tests.o: weapon.h weapon_tests.h weapon_tests.c
+	clang -c -g `pkg-config --cflags glib-2.0`  weapon_tests.c
+tests.o: utility_tests.h weapon_tests.h
+	clang -c -g `pkg-config --cflags glib-2.0`  tests.c
+tests: utility_tests.o weapon_tests.o tests.o weapon.o utility.o
+	clang -g utility_tests.o weapon_tests.o weapon.o utility.o tests.o `pkg-config --libs glib-2.0` -o tests
