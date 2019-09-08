@@ -9,7 +9,7 @@
 typedef struct object {
 	int x;
 	int y;
-	char icon;
+	char *icon;
 	ColorPair colorPair;
 	Character *character;
 } Object;

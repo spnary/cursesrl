@@ -1,6 +1,8 @@
+#define _XOPEN_SOURCE_EXTENDED
 #include <stdlib.h>
 #include <ncurses.h>
 #include <stdbool.h>
+#include <locale.h>
 #include "object.h"
 #include "map.h"
 #include "rlconst.h"
@@ -51,6 +53,7 @@ void updateUI(Object *objects[], int objectCount, Object *player, Map *map, WIND
 }
 
 int main() {
+  setlocale(LC_ALL, "");
   setupScreen();
   WINDOW *mapWin = initializeMapWindow();
   WINDOW *statsWin = initializeStatsWindow();
@@ -62,8 +65,8 @@ int main() {
 	Character *pc = generatePC();
         Point startPoint = center(map->rooms[0]);
         Point monsterStart = center(map->rooms[1]);
-	Object *player = &(Object){ startPoint.x, startPoint.y, '@', CYAN, pc};
-	Object *monster = &(Object){ monsterStart.x, monsterStart.y, 'M', RED, NULL};
+	Object *player = &(Object){ startPoint.x, startPoint.y, "😊", CYAN, pc};
+	Object *monster = &(Object){ monsterStart.x, monsterStart.y, "😈", RED, NULL};
 	Object *monsters[] = {monster};
 	int monsterCount = 1;
 	while(1) {

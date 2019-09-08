@@ -2,6 +2,7 @@
 #include "character.h"
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 void moveObject(Object *obj, Tile map[MAP_WIDTH][MAP_HEIGHT],  int x, int y) {
 	Tile tile = map[obj->x + x][obj->y + y];
@@ -65,12 +66,10 @@ bool handleKey(int key, Object *obj, Tile map[MAP_WIDTH][MAP_HEIGHT]) {
 }
 
 void printObject(Object obj, WINDOW *win) {
-	char icon[2];
-	icon[0] = obj.icon;
-	icon[1] = '\0';
-	wattron(win, COLOR_PAIR(obj.colorPair));
+	char *icon = obj.icon;
+	//	wattron(win, COLOR_PAIR(obj.colorPair));
 	mvwprintw(win, obj.y, obj.x, icon); 
-	wattroff(win, COLOR_PAIR(obj.colorPair));
+	//	wattroff(win, COLOR_PAIR(obj.colorPair));
 }
 
 void freeObject(Object *obj) {
