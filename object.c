@@ -67,9 +67,9 @@ bool handleKey(int key, Object *obj, Tile map[MAP_WIDTH][MAP_HEIGHT]) {
 
 void printObject(Object obj, WINDOW *win) {
 	char *icon = obj.icon;
-	//	wattron(win, COLOR_PAIR(obj.colorPair));
+	wattron(win, COLOR_PAIR(obj.colorPair));
 	mvwprintw(win, obj.y, obj.x, icon); 
-	//	wattroff(win, COLOR_PAIR(obj.colorPair));
+	wattroff(win, COLOR_PAIR(obj.colorPair));
 }
 
 void freeObject(Object *obj) {

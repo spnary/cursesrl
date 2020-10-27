@@ -65,7 +65,7 @@ int main() {
 	Character *pc = generatePC();
         Point startPoint = center(map->rooms[0]);
         Point monsterStart = center(map->rooms[1]);
-	Object *player = &(Object){ startPoint.x, startPoint.y, "😊", CYAN, pc};
+	Object *player = &(Object){ startPoint.x, startPoint.y, "@", CYAN, pc};
 	Object *monster = &(Object){ monsterStart.x, monsterStart.y, "😈", RED, NULL};
 	Object *monsters[] = {monster};
 	int monsterCount = 1;
